@@ -23,7 +23,7 @@
     - 경로 : 쿠키를 적용할 경로
     - 유지 기간 : 쿠키를 유지할 기간
     - void setValue(String value) : 쿠키 값 설정, 쉼표, 세미콜론 같은 문자는 포함 불가다.
-    - void setDomain(String domain)
-    - void setPath(String path)
+    - void setDomain(String domain) 
+    - void setPath(String path) 
     - void set MaxAge(int seconds) : 초 단위 설정, 기간 설정하지 않으면 브라우저가 닫힐 때 삭제된다.
-    - new Cookie(String)
+    - new Cookie(String) :
