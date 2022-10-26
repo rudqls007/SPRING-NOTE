@@ -1,0 +1,35 @@
+1. 용어
+
+  1) DI (Dependency Injection), IoC(Inversion of Control)
+      - 스프링이 바닥판처럼 깔려있고, 우리는 그 위에서 멋진 조립(애플리케이션)을 만들면 된다.
+  2) Bean
+      - javaBean
+        - 데이터를 저장하기 위한 구조체로 자바 빈 규약이라는 것을 따르는 구조체
+        - private 프로퍼티와 getter / setter 들로만 데이터를 접근한다.
+        - 인수(argument)가 없는 기본 생성자가 있다.
+      - 스프링에서의 Bean
+        - 스프링 IoC 컨테이너에 의해 생성되고 관리되는 객체
+        - 자바에서처럼 new Object()로 생성하지 않는다.
+        - 각각의 Bean들끼리는 서로를 의존(사용)할 수 있다.
+  3) 스프링 컨테이너
+      - ApplicationContext 인터페이스를 통해 제공되는 스프링 컨테이너는 
+        Bean 객체를 생성 및 Bean들의 조립(상호 의존성 관리)을 담당한다.
+      - Bean의 등록
+        - 과거에는 xml로 설정을 따로 관리하여 등록한다.
+        - 현재는 annotation 기반 Bean 등록
+            - @Bean, @Controller, @Service,
+        - Bean 등록 시 정보
+            - Class 경로
+            - Bean의 이름
+                - 기본적으로 원 Class 이름에서 첫 문자만 소문자로 변경한다.
+                - 원하는 경우 변경 가능하다.
+            - Scope (Bean을 생성하는 규칙)
+                - singleton : 컨테이너에 단일로 생성
+                - prototype : 작업 시마다 Bean을 새로 생성하고 싶을 경우
+                - request : http 요청할 때마다 새롭게 Bean을 생성하고 싶은 경우
+
+2. 스프링 IoC 컨테이너(Spring IoC Container) & 빈(Beans)
+  1) 컨테이너는 제어의 역전(IoC) 원리가 적용된 스프링 핵심 컴포넌트이다.
+  2) 컨테이너에 의해 생성 및 조립된 후 관리(초기화, 소멸 등)되는 객체를 빈(Beans)이라 부른다.
+  3) 빈 생성 시 의존 관계 주입(DI)이 일어난다.
+  4) 빈 구성 정보를 바탕으로 비즈니스 오브젝트를 이용해 애플리케이션 구성하고 생애를 관리한다.
