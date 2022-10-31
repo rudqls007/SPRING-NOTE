@@ -27,6 +27,14 @@
               - reject(String errorCode)
               - rejectValue(String field, String errorCode)
               - rejectValue(String field, String errorCode, String deaultMessage)
+                  - field : 에러 발생 코드
+                  - errorCode : 해당 에러에 대한 에러 코드
+                  - defaultMessage : 해당 에러에 대한 default 메세지
+  3) Validator를 검증기(validator)로 등록
+      - WebDataBinder를 사용한다.
+          - 타입 변환
+          - 데이터 검증
+          - bindingResult 
 4. Validation 수행 시 Tip
   1) validation이 너무 여러 군데에 흩어져 있으면 테스트 미 유지 보수성이 떨어진다.
       - 정책 변경 시에 모든 중복 코드를 수행해야 한다.
