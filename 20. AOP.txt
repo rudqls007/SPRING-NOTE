@@ -24,12 +24,15 @@
     2) advice
         - target에 동적으로 추가될 부가 기능(코드)
         - 타겟에 제공할 부가 기능을 담고 있는 모듈
+        - 조언, AOP에서 실제로 적용하는 기능(로깅, 트랜잭션, 인증 등)
     3) join point
         - advice가 추가(join)될 대상(메서드)
         - 어드바이스가 적용될 수 있는 위치
         - 타겟 객체가 구현한 인터페잇의 모든 메서드는 조인 포인트가 된다.
+        - 모듈화된 특정 기능이 실행될 수 있는 연결 포인트
     4) pointcut
         - join point들을 정의한 패턴
+        - join point 중에서 해당 Aspect를 적용할 대상을 뽑을 조건식
         - advice를 적용할 타겟에 메서드를 선별하는 정규 표현식이다.
         - 포인트 컷 표현식은 execution으로 시작을 하고, 메서드의 signature를 비교하는 방법을 주로 이용한다.
             - execution(* kr.co.ezenac.*.*(..))
@@ -37,11 +40,64 @@
         - target에 advice가 동적으로 추가되어 생성된 객체
             - Spring은 프록시 기반 AOP를 지원한다.
             - SPring은 타겟(target) 객체에 대한 프록시(proxy)를 만들어 제공한다.
-            = 타겟을 감싸는 프록시는 실행 시간(Runtime)에 생성된다.
+            - 타겟을 감싸는 프록시는 실행 시간(Runtime)에 생성된다.
             - 프록시는 advice를 타겟 객체에 작용하면서 생성되는 객체이다.
+        - 대상 오브젝트에 Aspect를 적용하는 경우 advice를 덧 붙이기 위해 하는 작업이다. 
     6) weaving
         - target에 advice를 추가해서 proxy를 생성하는 것.
+        - Advice를 비즈니스 로직 코드에 삽입하는 것.
         - weaving은 포인트 컷에 의해서 결정된 타겟의 조인 포인트에 부가 기능(advice)을 삽입하는 과정을 뜻 한다.
         - weaving은 AOP가 핵심 기능(target)의 코드에 영향을 주지 않으며서
           필요한 부가 기능(advice)을 추가할 수 있도록 해주는 핵심적인 처리과정이다.
+    7) Aspect (에스팩트)
+        - 여러 클래스나 기능에 걸쳐서 있는 괸심사, 그리고 그것들을 모듈화한다.
+        - 에스팩트는 AOP의 기본 모듈이다.
+        - 에스팩트 = 어드바이스 + 포인트컷
+        - 에스팩트는 싱글톤 형태의 객체로 존재한다.
+        - AOP 중에서 가장 많이 활용되는 부분은 @Transactional(트랜잭션 관리) 기능
+
+5. Advice의 종류                                                                                    어노테이션
+    1) before advice                                                                                @Before
+        - 메서드의 시작 부분에 추가되는 부가 기능
+        - 전 처리 어드바이스
+        - 프록시는 타겟 객체에 대한 호출을 가로챈(Intercept)
+          다음 어드바이스의 부가기능 로직을 수행하고 타겟의 핵심 기능 로직을 호출한다. 
+    2) after advice                                                                                 @Atfer
+        - 메서드의 끝 부분에 추가되는 부가 기능
+        - 후 처리 어드바이스
+        - 타겟의 핵심 기능 로직 메서드를 호출한 후에 부가 기능(어드바이스)을 수행하는 경우
+    3) around advice                                                                                @Around
+        - 메서드의 시작과 끝 부분에 추가되는 부가 기능
+    4) after returning                                                                              @AtferReturning
+        - 예외가 발생하지 않았을 때, 실행되는 부가 기능
+    5) after throwing                                                                               @AtferThrowing
+        - 예외가 발생했을 때, 실행되는 부가 기능
+
+6. pointcut expression
+    1) advice가 추가될 메서드를 지정하기 위한 패턴
+    2) execution([반환타입] 패키지명, 클래스명, 메서드명(매개변수 목록))
+        - "execution(* kr.co.ezenac.*.*(..))"
+        - 예
+            - execution(* hello(..))
+                - hello라는 이름을 가진 메서드를 선정하는 것이다.
+                - 파라미터는 모든 종류를 다 허용한다.
+            - execution(* hello())
+                - hello 메서드 중에서 파라미터가 없는 것만 선택하는 것이다.
+            - execution(* kr.co.ezenac.user.service.UserServiceImpl.*(..))
+                - kr.co.ezenac.user.service.UserServiceImpl 클래스를 직접 지정하여
+                  이 클래스가 가진 모든 메서드를 선택한다.
+            - execution(* kr.co.ezenac.user.service.*.*(..))
+                - kr.co.ezenac.user.service 패키지의 모든 클래스에 적용된다.
+                - 서브패키지의 클래스는 포함되지 않는다.
+            - execution(* kr.co.ezenac.user.service..*.*(..))
+                - kr.co.ezenac.user.service 패키지의 모든 클래스에 적용된다.
+                - 서브패키지의 모든 클래스까지 포함한다. (. 하나가 더 들어가게 되면)
+            - execution(* *..MyClass.*(..))
+                - 패키지에 상관없이 MyClass라는 이름의 모든 클래스에 적용된다.
+                - 다른 패키지에 같은 이름의 클래스가 있어도 적용이 된다.
+
+7. JoinPoint 인터페이스
+    1) Spring AOP 혹은 AspectJ에서 AOP가 적용되는 지점
+    2) 해당 지점을 JoinPoint라는 이름의 인터페이스로 나타낸다.
+    3) 어드바이스는 JoinPoint 하위 클래스인 ProceedingJoinPoint 타입의 파라미터를 필수적으로 선언해야 한다.
     
