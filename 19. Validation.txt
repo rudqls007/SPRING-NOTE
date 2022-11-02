@@ -43,3 +43,14 @@
 
 5. Data Binding
   1) 사용자나 외부 서버의 요청 데이터를 특정 도메인 객체(DTO)에 저장을 해서 웹 프로그램에 Request에 담아 주는 것을 뜻 한다.
+
+6. MessageSource
+  1) 다양한 리소스(파일, 배열)에서 메시지를 읽기 위한 인터페이스
+  2) ResourcebundleMessageSource를 servlet-context.xml에 등록
+      - getMessage(String code, Object[] args, String defaultMessage, Locale locale)
+  3) error_message.properties
+      - 메세지 코드(errorCode)  --------- 메세지
+  
+7. (스프링이 제공하는)커스텀 태그 라이브러리 사용
+    1) <form></form>
+    
